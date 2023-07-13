@@ -92,3 +92,21 @@ if __name__ == '__main__':
     for i in range(20):
         zaxe[i//5,i%5].plot(Z[i])
     plt.suptitle('Z dimension time series')
+    
+    #%% Save data
+    X.to_csv('xdata_raw.csv')
+    Y.to_csv('ydata_raw.csv')
+    Z.to_csv('zdata_raw.csv')
+    
+    #%% Standardise
+    def norm_df(df):
+        return (df - df.min().min())/(df.max().max() - df.min().min())
+    Xn = norm_df(X)
+    Yn = norm_df(Y)
+    Zn = norm_df(Z)
+    
+    #%% Save standardised data
+    
+    Xn.to_csv('xdata_norm.csv')
+    Yn.to_csv('ydata_norm.csv')
+    Zn.to_csv('zdata_norm.csv')
