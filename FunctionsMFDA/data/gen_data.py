@@ -94,9 +94,9 @@ if __name__ == '__main__':
     plt.suptitle('Z dimension time series')
     
     #%% Save data
-    X.to_csv('xdata_raw.csv')
-    Y.to_csv('ydata_raw.csv')
-    Z.to_csv('zdata_raw.csv')
+    X.to_csv('xdata_raw.csv',header = False,index = False)
+    Y.to_csv('ydata_raw.csv',header = False,index = False)
+    Z.to_csv('zdata_raw.csv',header = False,index = False)
     
     #%% Standardise
     def norm_df(df):
@@ -107,6 +107,6 @@ if __name__ == '__main__':
     
     #%% Save standardised data
     
-    Xn.to_csv('xdata_norm.csv')
-    Yn.to_csv('ydata_norm.csv')
-    Zn.to_csv('zdata_norm.csv')
+    Xn.to_csv('xdata_norm.csv',header = False,index = False)
+    Yn.to_csv('ydata_norm.csv',header = False,index = False)
+    Zn.to_csv('zdata_norm.csv',header = False,index = False)
