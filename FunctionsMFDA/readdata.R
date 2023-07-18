@@ -27,5 +27,11 @@ df$id <- ID
 df$time <- t
 df$xvalue <- x
 
+# FDA parameters
+knots    = c(seq(0,npoints,20)) #Location of knots
+n_knots   = length(knots) #Number of knots
+n_order   = 4 # order of basis functions: for cubic b-splines: order = 3 + 1
+n_basis   = length(knots) + n_order - 2;
+basis = create.bspline.basis(rangeval = c(0,npoints), n_basis)
 
 # Use funHDDC for MFDA
