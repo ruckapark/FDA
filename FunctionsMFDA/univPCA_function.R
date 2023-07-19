@@ -18,12 +18,18 @@ univPCA <-function(df,n_breakpoints=20,spline_order=4,Lfd_order = 2,fPC_no = 2) 
   Lfd <- int2Lfd(Lfd_order)
   fdParam <- fdPar(basis,Lfd,1e4)
   df_fda <- smooth.basis(1:npoints,data.matrix(df),fdParam)
+  fd <- df_fda$fd
   
   #PCA
   df_PCA <- pca.fd(df_fda$fd,nharm = fPC_no)
   
-  return(list(fda = df_fda,PCA = df_PCA))
+  return(list(fda = fd,PCA = df_PCA))
   
+}
+
+plot_smoothed <-function(fd,ylab = 'Y'){
+  par(mfrow=c(1,1),mar = c(8, 8, 4, 2))
+  plot(fd,xlab='time',ylab=ylab,cex.lab=1.5,cex.axis=1.5)
 }
 
 plotPCA_comps <-function(df_PCA) {
@@ -40,11 +46,18 @@ plotPCA_comps <-function(df_PCA) {
   
 }
 
+plotPCA_scores <-function(df_PCA){
+  #plot scores plot
+  par(mfrow=c(1,1),mar = c(8, 8, 4, 2))
+  plot(df_PCA$scores[,1:2],xlab='PC Score 1',ylab='PC Score 2',col=4,
+       cex.lab=1.5,cex.axis=1.5,cex=1)
+}
+
 #threshold is what?
 univCluster <- function(fd_obj,k_clus,mod="AkBkQkDk"){
   
-  res.uni <- funHDDC(fd_obj$fd,K=k_clus,model=mod,init="kmeans",threshold=0.2)
+  res.uni <- funHDDC(fd_obj,K=k_clus,model=mod,init="kmeans",threshold=0.2)
   
-  return res.uni
+  return(res.uni)
   
 }
