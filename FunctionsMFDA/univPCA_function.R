@@ -1,23 +1,36 @@
 library(fda)
 library(funHDDC)
 
-univPCA <-function(df,n_breakpoints=20,spline_order=4,Lfd_order = 2,fPC_no = 2) {
+univPCA <-function(df,breakpoint_spacing=20,spline_order=4,Lfd_order = 2,fPC_no = 2,base = 'b') {
   
   #define no. of points and timeseires
   ncurves <- ncol(df)
   npoints <- nrow(df)
   
   # FDA parameters
-  knots    = c(seq(0,npoints,n_breakpoints)) #Location of knots
+  knots    = c(seq(0,npoints,breakpoint_spacing)) #Location of knots
   n_knots   = length(knots) #Number of knots
   n_order   = spline_order # order of basis functions: for cubic b-splines: order = 3 + 1
   n_basis   = length(knots) + n_order - 2;
-  basis = create.bspline.basis(rangeval = c(0,npoints), n_basis)
   
-  #FDA
-  Lfd <- int2Lfd(Lfd_order)
-  fdParam <- fdPar(basis,Lfd,1e4)
-  df_fda <- smooth.basis(1:npoints,data.matrix(df),fdParam)
+  if(base == 'b'){
+    
+    #FDA
+    basis = create.bspline.basis(rangeval = c(0,npoints), n_basis)
+    Lfd <- int2Lfd(Lfd_order)
+    fdParam <- fdPar(basis,Lfd,1e4)
+    df_fda <- smooth.basis(1:npoints,data.matrix(df),fdParam)
+    
+  }else if(base == 'f'){
+    
+    basis = create.fourier.basis(rangeval = c(0,npoints), n_basis)
+    harmLfd = vec2Lfd(c(0,(2*pi/npoints)^2,0), c(0, 365))
+    fdParam = fdPar(basis,harmLfd,1e4)
+    df_fda = smooth.basis(1:npoints,data.matrix(df),fdParam)
+    
+  }
+  
+  #Functional data
   fd <- df_fda$fd
   
   #PCA

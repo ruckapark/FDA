@@ -88,6 +88,7 @@ if __name__ == '__main__':
         t = np.linspace(-1,1,200)
         Z[i+10] = signal.gausspulse(t, fc=10+(2*np.random.random()-1)) + np.random.normal(scale = 0.02,size = len(t))
     
+    #%% Plot Z data
     zplot,zaxe = plt.subplots(4,5,sharex = True,sharey = True, figsize = (20,12))
     for i in range(20):
         zaxe[i//5,i%5].plot(Z[i])
@@ -105,8 +106,13 @@ if __name__ == '__main__':
     Yn = norm_df(Y)
     Zn = norm_df(Z)
     
+    zplot,zaxe = plt.subplots(4,5,sharex = True,sharey = True, figsize = (20,12))
+    for i in range(20):
+        zaxe[i//5,i%5].plot(Zn[i])
+    plt.suptitle('Z dimension normalised time series')
+    
     #%% Save standardised data
     
-    Xn.to_csv('xdata_norm.csv',header = False,index = False)
-    Yn.to_csv('ydata_norm.csv',header = False,index = False)
-    Zn.to_csv('zdata_norm.csv',header = False,index = False)
+    # Xn.to_csv('xdata_norm.csv',header = False,index = False)
+    # Yn.to_csv('ydata_norm.csv',header = False,index = False)
+    # Zn.to_csv('zdata_norm.csv',header = False,index = False)
