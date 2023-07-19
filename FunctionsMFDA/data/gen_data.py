@@ -82,7 +82,7 @@ if __name__ == '__main__':
     #generate gauss pulse - two variants
     for i in range(10):
         t = np.linspace(-1,1,200)
-        Z[i] = signal.gausspulse(t, fc=2+(2*np.random.random()-1)) + np.random.normal(scale = 0.02,size = len(t))
+        Z[i] = signal.gausspulse(t, fc=1.5+(np.random.random()-0.5)) + np.random.normal(scale = 0.02,size = len(t))
     
     for i in range(10):
         t = np.linspace(-1,1,200)
